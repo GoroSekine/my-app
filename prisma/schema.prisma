@@ -8,10 +8,33 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-// ↓ ここから下を追加するのじゃ！
 model User {
-  id   Int    @id @default(autoincrement())
-  name String
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  budget_limit Float          @default(50000)
+  transactions Transaction[]
+  subscriptions Subscription[]
+}
+
+model Transaction {
+  id       Int      @id @default(autoincrement())
+  userId   Int      @map("user_id")
+  amount   Float
+  category String
+  type     String   // "income" または "expense"
+  date     DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @map("user_id")
+  name        String
+  price       Float
+  renewalDate DateTime @map("renewal_date")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

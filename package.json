@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "start": "tsx index.ts",
-    "db:dev": "prisma dev"
+    "db:dev": "prisma dev",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "build:backend": "npm install && npx prisma generate",
+    "build": "npm run build:backend && npm run build:frontend"
   },
   "devDependencies": {
     "@types/node": "^26.0.1",
