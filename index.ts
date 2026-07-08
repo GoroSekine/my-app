@@ -110,7 +110,7 @@ app.get("/api/ranking", async (req: any, res: any) => {
 // --- 📦 フロントエンド（React）の静的ファイルを配信する設定 ---
 app.use(express.static(path.join(__dirname, "frontend/dist")));
 
-app.get("(.*)", (req: any, res: any) => { // 💡 "/*" から "(.*)" に変更！
+app.get(/.*/, (req: any, res: any) => { // 💡 "" を外して /.*/ に変更！
   res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
 });
 
